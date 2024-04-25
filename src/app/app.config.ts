@@ -12,10 +12,11 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideHttpClient(),
-    provideAnimations(), 
+    provideAnimations(),
     provideToastr(),
     importProvidersFrom(ToastrModule.forRoot({
-      positionClass:"toast-top-center",
-      timeOut: 2000,}))
-]
+      positionClass: "toast-top-center",
+      timeOut: 2000,
+    }))
+  ]
 };

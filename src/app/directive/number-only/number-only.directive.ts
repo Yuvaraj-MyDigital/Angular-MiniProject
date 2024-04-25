@@ -5,12 +5,12 @@ import { Directive, HostListener } from '@angular/core';
   standalone: true
 })
 export class NumberOnlyDirective {
-  private regex:RegExp = new RegExp ("^[0-9]+$");
+  private regex: RegExp = new RegExp("^[0-9]+$");
 
   constructor() { }
 
-  @HostListener('keypress',['$event'])OnkeyDown(event: KeyboardEvent){
-    if(!String(event.key).match(this.regex) ){
+  @HostListener('keypress', ['$event']) OnkeyDown(event: KeyboardEvent) {
+    if (!String(event.key).match(this.regex)) {
       event.preventDefault();
     }
   }

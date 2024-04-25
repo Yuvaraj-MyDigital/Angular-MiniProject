@@ -11,80 +11,83 @@ import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
-    selector: 'app-set-password',
-    standalone: true,
-    templateUrl: './set-password.component.html',
-    styleUrl: './set-password.component.css',
-    imports: [ReactiveFormsModule, TextmatchPipe, HeaderComponent, OnboardImageComponent]
+  selector: 'app-set-password',
+  standalone: true,
+  templateUrl: './set-password.component.html',
+  styleUrl: './set-password.component.css',
+  imports: [ReactiveFormsModule,
+    TextmatchPipe,
+    HeaderComponent,
+    OnboardImageComponent]
 })
 
 export class SetPasswordComponent {
 
-  title="Set Up Your Password";
-  setPasswordForm!:FormGroup;
-  token:any;
+  title = "Set Up Your Password";
+  setPasswordForm!: FormGroup;
+  token: any;
 
-  constructor(private userService:UserRegisterService,
-    private route:ActivatedRoute,
-    private router : Router,
-    private toastr:ToastrService,) {
+  constructor(private userService: UserRegisterService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private toastr: ToastrService) {
 
   }
 
   ngOnInit() {
     this.setPasswordForm = new FormGroup({
-      password:new FormControl(null,[Validators.required]),
-      password_confirmation : new FormControl(null,[Validators.required])
+      password: new FormControl(null, [Validators.required]),
+      password_confirmation: new FormControl(null, [Validators.required])
     })
 
-    this.token= this.route.snapshot.params["token"];
+    this.token = this.route.snapshot.params["token"];
 
-    
+
     this.checkTokenValid(this.token);
   }
-  get password(){
+  get password() {
     return this.setPasswordForm.get('password')
   }
 
-  get password_confirmation(){
+  get password_confirmation() {
     return this.setPasswordForm.get('password_confirmation')
   }
 
-  setPassword(){
+  setPassword() {
 
-    this.userService.saveUserPassword(this.token,this.setPasswordForm.value).subscribe({
-      next:(response)=>{
-        this.toastr.success(response["toaster_success"],'Success');
+    this.userService.saveUserPassword(this.token, this.setPasswordForm.value).subscribe({
+      next: (response) => {
+        this.toastr.success(response["toaster_success"], 'Success');
         this.router.navigate(['login']);
       },
-      error: (msg)=>{
+      error: (msg) => {
         this.router.navigate(['login']);
         console.log(msg);
-        this.toastr.error(msg['error']["toaster_error"],'Error');
-        
+        this.toastr.error(msg['error']["toaster_error"], 'Error');
+
       }
     })
   }
- 
 
-  checkTokenValid(token:any) {
-  this.userService.setPasswordPage(token).subscribe({
-    next:(response)=>{
-      this.toastr.info(response["toaster_info"], 'Info');
-      setTimeout(() => {
-        this.toastr.clear();
-      }, 1500);
-    },
-    error: (msg)=>{
-      this.router.navigate(['login']);
-      console.log(msg);
-      this.toastr.error(msg.error?.message, 'Error');
-      setTimeout(() => {
-        this.toastr.clear();
-      }, 1500);
-      
-    }
+
+  checkTokenValid(token: any) {
+    this.userService.setPasswordPage(token).subscribe({
+      next: (response) => {
+        this.toastr.info(response["toaster_info"], 'Info');
+        setTimeout(() => {
+          this.toastr.clear();
+        }, 1500);
+      },
+      error: (msg) => {
+        this.router.navigate(['login']);
+        console.log(msg);
+        this.toastr.error(msg.error?.message, 'Error');
+        setTimeout(() => {
+          this.toastr.clear();
+        }, 1500);
+
+      }
     })
-    
+
   }
 }

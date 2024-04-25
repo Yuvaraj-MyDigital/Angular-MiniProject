@@ -7,9 +7,9 @@ import { error } from 'console';
 })
 export class TextmatchPipe implements PipeTransform {
 
-  transform(value1:any,value2:any) {
-  
-    return value1!== value2 ? false : true;
+  transform(value1: any, value2: any) {
+
+    return value1 !== value2 ? false : true;
   }
 
 }
